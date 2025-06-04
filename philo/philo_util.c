@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sangseo <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/26 22:28:12 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/05 03:25:41 by sangseo          ###   ########.fr       */
+/*   Created: 2025/06/05 02:27:04 by sangseo           #+#    #+#             */
+/*   Updated: 2025/06/05 03:25:04 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#include "philo.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
-# include <sys/time.h>
-# include <pthread.h>
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
 
-int	ft_isdigit(int c);
-int	ft_atoi(char *s);
+int	ft_atoi(char *s)
+{
+	int	n;
+	int	i;
 
-#endif
+	n = 0;
+	i = 0;
+	while (s[i])
+	{
+		n = 10 * n + (s[i] - '0');
+		i++;
+	}
+	return (n);
+}
