@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 00:59:14 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/05 02:58:32 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/06 15:49:17 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ int	init_args(char **av, int *args)
 		j = 0;
 		while (av[i][j])
 		{
-			if (!ft_isdigit(**av))
+			if (!ft_isdigit(av[i][j]))
 			{
+				printf("Invalid argument\n");
 				return (0);
 			}
 			j++;
