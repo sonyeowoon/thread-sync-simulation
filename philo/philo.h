@@ -6,7 +6,7 @@
 /*   By: sangseo <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:28:12 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/05 03:25:41 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/07 21:56:39 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <pthread.h>
 
 int	ft_isdigit(int c);
-int	ft_atoi(char *s);
+long long	ft_atoi(char *s);
+int	check_int(long long n);
+int	get_ms_time(void);
+int	invalid_arg_exit(void);
 
 #endif

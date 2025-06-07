@@ -1,51 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_util.c                                       :+:      :+:    :+:   */
+/*   philo_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/05 02:27:04 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/07 21:35:26 by sangseo          ###   ########.fr       */
+/*   Created: 2025/06/07 21:52:59 by sangseo           #+#    #+#             */
+/*   Updated: 2025/06/07 21:54:52 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_isdigit(int c)
+int	invalid_arg_exit(void)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	else
-		return (0);
-}
-
-long long	ft_atoi(char *s)
-{
-	long long	n;
-	int	i;
-
-	n = 0;
-	i = 0;
-	while (s[i])
-	{
-		n = 10 * n + (s[i] - '0');
-		i++;
-	}
-	return (n);
-}
-
-int	check_int(long long n)
-{
-	if (n != (int)n)
-		return (0);
-	return (1);
-}
-
-int	get_ms_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000L + tv.tv_usec / 1000);
+	printf("Invalid argument\n");
+	return (0);
 }
