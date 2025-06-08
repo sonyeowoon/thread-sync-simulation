@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:28:12 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/08 15:59:20 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/09 01:06:18 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct	s_vars
 	int	args[5];
 	int	start_time;
 	pthread_mutex_t	*fork;
-	int	n;
+	pthread_t	*threads;
 }	t_vars;
 
 int	ft_isdigit(int c);
