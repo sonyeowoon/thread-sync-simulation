@@ -38,26 +38,45 @@ int	init_args(char **av, int *args)
 	return (1);
 }
 
-void	*philosopher_routine(void *args)
+void	init_vars(pthread_t **t, t_vars *vars)
 {
+	vars->start_time = get_ms_time();
+	*t = (pthread_t *)malloc(sizeof(pthread_t) * (vars->args)[0]);
+	vars->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (vars->args)[0]);
+}
+
+void	*philosopher_routine(void *vars)
+{
+	t_vars *v;
+	v = (t_vars *)vars;
+	printf("%d\n", v->n);
+	sleep(1);
+	printf("%d\n", v->n);
 }
 
 int	main(int ac, char **av)
 {
-	int	args[5];
+	t_vars	vars;
 	int	i;
-	int	start_time;
-	pthread_t	t;
+	pthread_t	*t;
 
 	if (ac < 5 || ac > 6)
 		return (invalid_arg_exit());
-	if (init_args(av, args) == 0)
+	if (init_args(av, vars.args) == 0)
 		return (invalid_arg_exit());
-	start_time = get_ms_time();
+	init_vars(&t, &vars);
 	i = 0;
-	while (i < args[0])
+	while (i < (vars.args)[0])
 	{
-		pthread_create(&t, NULL, philosopher_routine, (int *)args);
+		vars.n = i;
+		pthread_create(&t[i], NULL, philosopher_routine, (t_vars *)&vars);
 		i++;
 	}
+	while (i < (vars.args)[0])
+	{
+		pthread_join(t[i], NULL);
+		i++;
+	}
+	printf("All philosophers are done.\n");
+	return (0);
 }

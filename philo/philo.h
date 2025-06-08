@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sangseo <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sangseo <sangseo@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:28:12 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/07 21:56:39 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/08 15:59:20 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
+
+typedef struct	s_vars
+{
+	int	args[5];
+	int	start_time;
+	pthread_mutex_t	*fork;
+	int	n;
+}	t_vars;
 
 int	ft_isdigit(int c);
 long long	ft_atoi(char *s);
