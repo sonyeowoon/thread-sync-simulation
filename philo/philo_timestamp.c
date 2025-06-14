@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_errors.c                                     :+:      :+:    :+:   */
+/*   philo_timestamp.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/07 21:52:59 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/13 23:13:46 by sangseo          ###   ########.fr       */
+/*   Created: 2025/06/14 17:43:33 by sangseo           #+#    #+#             */
+/*   Updated: 2025/06/14 18:15:54 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	invalid_arg_exit(void)
+int	get_ms_time(void)
 {
-	printf("Invalid argument\n");
-	return (0);
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000L + tv.tv_usec / 1000);
 }
 
-int	init_vars_error(void)
+int	philo_timestamp(t_philo *philos)
 {
-	printf("'init_vars()' failure!\nPlease check malloc in 'init_vars()'");
-	return (0);
+	return (get_ms_time() - philos->vars.start_time);
+}
+
+int	get_remaining_life(t_philo *philos)
+{
+	return (philos->vars.life - (get_ms_time() - philos->last_eat_time));
 }

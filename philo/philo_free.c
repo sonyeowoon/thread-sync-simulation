@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_errors.c                                     :+:      :+:    :+:   */
+/*   philo_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/07 21:52:59 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/13 23:13:46 by sangseo          ###   ########.fr       */
+/*   Created: 2025/06/14 02:03:09 by sangseo           #+#    #+#             */
+/*   Updated: 2025/06/14 20:43:09 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	invalid_arg_exit(void)
+void	philo_free(t_vars *vars, t_philo **philos)
 {
-	printf("Invalid argument\n");
-	return (0);
+	free((*vars).fork);
+	free(*philos);
 }
 
-int	init_vars_error(void)
+void	all_mutex_destroy(t_philo *philos)
 {
-	printf("'init_vars()' failure!\nPlease check malloc in 'init_vars()'");
-	return (0);
+	if (philos->index == 1)
+		pthread_mutex_destroy(&(philos->vars.print_mutex));
+	pthread_mutex_destroy(&(*(philos->fork1)));
 }

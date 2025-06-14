@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 02:27:04 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/07 21:35:26 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/14 18:40:39 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,9 @@ int	check_int(long long n)
 	return (1);
 }
 
-int	get_ms_time(void)
+void	safe_print(t_philo *philos, char *msg)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000L + tv.tv_usec / 1000);
+	pthread_mutex_lock(&(philos->vars.print_mutex));
+	printf("%d %d %s\n", philo_timestamp(philos), philos->index, msg);
+	pthread_mutex_unlock(&(philos->vars.print_mutex));
 }

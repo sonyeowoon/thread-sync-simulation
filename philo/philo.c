@@ -6,75 +6,90 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 00:59:14 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/09 02:22:59 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/14 20:48:03 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_args(char **av, int *args)
+void	*philosopher_routine(void *philos)
+{
+	t_philo	*p;
+
+	p = (t_philo *)philos;
+	while (1)
+	{
+		if (philo_eat(p) == 0)
+		{
+			all_mutex_destroy(p);
+			return (0);
+		}
+		if (philo_sleep(p) == 0)
+		{
+			all_mutex_destroy(p);
+			return (0);
+		}
+	}
+	all_mutex_destroy(p);
+	return (0);
+}
+
+void	*check_all_ate(void *philos)
 {
 	int	i;
-	int	j;
-	long long	n;
+	int	count;
+	t_philo *p;
 
-	i = 1;
-	while (av[i])
+	p = (t_philo *)philos;
+	if (p->vars.args[4] < 0)
+		return (0);
+	i = 0;
+	count = 0;
+	while (1)
 	{
-		j = 0;
-		while (av[i][j])
+		if (p[i].eat_count >= p->vars.args[4])
+			count++;
+		else
+			count = 0;
+		if (count >= p->vars.args[0])
 		{
-			if (!ft_isdigit(av[i][j]))
-				return (0);
-			j++;
-		}
-		n = ft_atoi(av[i]);
-		if (check_int(n) == 0)
+			p->vars.all_ate_enough = 1;
 			return (0);
-		*args = (int)n;
-		args++;
+		}
 		i++;
+		if (i == p->vars.args[0])
+			i = 0;
 	}
-	return (1);
-}
-
-void	init_vars(t_vars *vars)
-{
-	vars->start_time = get_ms_time();
-	vars->threads = (pthread_t *)malloc(sizeof(pthread_t) * (vars->args)[0]);
-	vars->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * (vars->args)[0]);
-}
-
-void	*philosopher_routine(void *vars)
-{
-	t_vars *v;
-	v = (t_vars *)vars;
-	if (v->threads);
-	return (0);
 }
 
 int	main(int ac, char **av)
 {
 	t_vars	vars;
-	int	i;
+	t_philo	*philos;
+	int		i;
+	pthread_t	ate_check_thread;
 
 	if (ac < 5 || ac > 6)
 		return (invalid_arg_exit());
 	if (init_args(av, vars.args) == 0)
 		return (invalid_arg_exit());
-	init_vars(&vars);
+	if (init_vars(&vars, &philos) == 0)
+		return (init_vars_error());
+	pthread_create(&ate_check_thread, NULL, check_all_ate, philos);
 	i = 0;
 	while (i < (vars.args)[0])
 	{
-		pthread_create(&(vars.threads[i]), NULL, philosopher_routine, (t_vars *)&vars);
+		pthread_create(&(philos[i].thread), NULL, philosopher_routine, &(philos[i]));
 		i++;
 	}
 	i = 0;
 	while (i < (vars.args)[0])
 	{
-		pthread_join(vars.threads[i], NULL);
+		pthread_join(philos[i].thread, NULL);
 		i++;
 	}
+	pthread_join(ate_check_thread, NULL);
 	printf("All philosophers are done.\n");
+	philo_free(&vars, &philos);
 	return (0);
 }
