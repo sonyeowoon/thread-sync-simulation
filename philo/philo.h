@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:28:12 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/14 20:30:22 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/15 19:43:04 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ typedef struct	s_vars
 	int	start_time;
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	print_mutex;
+	//pthread_mutex_t	global_mutex;
+	pthread_mutex_t	ate_enough_mutex;
+	pthread_mutex_t	dead_mutex;
 	int	life;
 	int	all_ate_enough;
+	int	is_dead;
 }	t_vars;
 
 typedef struct	s_philo
@@ -38,7 +42,7 @@ typedef struct	s_philo
 	pthread_mutex_t	*fork2;
 	int	fork1_idx;
 	int	fork2_idx;
-	t_vars	vars;
+	t_vars	*vars;
 	int	last_eat_time;
 	int	eat_count;
 }	t_philo;
@@ -59,5 +63,6 @@ int	philo_sleep(t_philo *philos);
 int	get_remaining_life(t_philo *philos);
 int	is_exit(t_philo *philos);
 void	all_mutex_destroy(t_philo *philos);
+void	philo_threading(t_philo *philos, t_vars *vars);
 
 #endif

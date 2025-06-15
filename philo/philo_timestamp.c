@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 17:43:33 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/14 18:15:54 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/14 22:49:16 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	get_ms_time(void)
 
 int	philo_timestamp(t_philo *philos)
 {
-	return (get_ms_time() - philos->vars.start_time);
+	return (get_ms_time() - philos->vars->start_time);
 }
 
 int	get_remaining_life(t_philo *philos)
 {
-	return (philos->vars.life - (get_ms_time() - philos->last_eat_time));
+	return (philos->vars->life - (get_ms_time() - philos->last_eat_time));
 }

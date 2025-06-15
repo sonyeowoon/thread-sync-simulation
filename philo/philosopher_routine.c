@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 04:46:23 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/14 19:58:27 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/15 19:47:10 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	philo_eat(t_philo *philos)
 	philos->eat_count++;
 	safe_print(philos, "has taken a fork");
 	safe_print(philos, "is eating");
-	usleep(philos->vars.args[2] * 1000);
+	usleep(philos->vars->args[2] * 1000);
 	pthread_mutex_unlock(philos->fork1);
 	pthread_mutex_unlock(philos->fork2);
 	return (1);
@@ -37,7 +37,7 @@ int	philo_sleep(t_philo *philos)
 	if (is_exit(philos) == 1)
 		return (0);
 	safe_print(philos, "is sleeping");
-	usleep(philos->vars.args[3] * 1000);
+	usleep(philos->vars->args[3] * 1000);
 	if (is_exit(philos) == 1)
 		return (0);
 	safe_print(philos, "is thinking");
@@ -46,12 +46,27 @@ int	philo_sleep(t_philo *philos)
 
 int	is_exit(t_philo *philos)
 {
+	pthread_mutex_lock(&(philos->vars->dead_mutex));
+	if (philos->vars->is_dead == 1)
+	{
+		pthread_mutex_unlock(&(philos->vars->dead_mutex));
+		return (1);
+	}
+	pthread_mutex_unlock(&(philos->vars->dead_mutex));
 	if (get_remaining_life(philos) <= 0)
 	{
 		safe_print(philos, "died");
+		pthread_mutex_lock(&(philos->vars->dead_mutex));
+		philos->vars->is_dead = 1;
+		pthread_mutex_unlock(&(philos->vars->dead_mutex));
 		return (1);
 	}
-	if (philos->vars.all_ate_enough == 1)
+	pthread_mutex_lock(&(philos->vars->ate_enough_mutex));
+	if (philos->vars->all_ate_enough == 1)
+	{
+		pthread_mutex_unlock(&(philos->vars->ate_enough_mutex));
 		return (1);
+	}
+	pthread_mutex_unlock(&(philos->vars->ate_enough_mutex));
 	return (0);
 }
