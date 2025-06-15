@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:49:45 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/15 19:18:24 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/16 05:55:19 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,42 @@ void	*philosopher_routine(void *philos)
 	return (0);
 }
 
+void	*philos_monitoring(void *philos)
+{
+	t_philo	*p;
+
+	p = (t_philo *)philos;
+	while (is_exit(philos) == 0)
+	{
+		if (get_remaining_life(philos) <= 0)
+		{
+			pthread_mutex_lock(&(p->vars->dead_mutex));
+			p->vars->is_dead = 1;
+			pthread_mutex_unlock(&(p->vars->dead_mutex));
+			pthread_mutex_lock(&(p->vars->print_mutex));
+			if (p->vars->all_ate_enough == 1)
+				return (0);
+			printf("%d %d died\n", philo_timestamp(p), p->index);
+			pthread_mutex_unlock(&(p->vars->print_mutex));
+		}
+	}
+	return (0);
+}
+
 void	philo_threading(t_philo *philos, t_vars *vars)
 {
 	pthread_t	ate_check_thread;
+	pthread_t	*monitoring_thread;
 	int	i;
 
 	pthread_create(&ate_check_thread, NULL, check_all_ate, philos);
+	monitoring_thread = (pthread_t *)malloc(sizeof(pthread_t) * vars->args[0]);
+	if (monitoring_thread == 0)
+		return ;
 	i = 0;
 	while (i < vars->args[0])
 	{
+		pthread_create(&(monitoring_thread[i]), NULL, philos_monitoring, &(philos[i]));
 		pthread_create(&(philos[i].thread), NULL, philosopher_routine, &(philos[i]));
 		i++;
 	}
@@ -88,7 +115,9 @@ void	philo_threading(t_philo *philos, t_vars *vars)
 	while (i < vars->args[0])
 	{
 		pthread_join(philos[i].thread, NULL);
+		pthread_join(monitoring_thread[i], NULL);
 		i++;
 	}
+	free(monitoring_thread);
 	pthread_join(ate_check_thread, NULL);
 }

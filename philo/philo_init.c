@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 03:21:54 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/14 22:44:56 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/16 00:44:41 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	init_philos(t_vars *vars, t_philo **philos)
 		pthread_mutex_init(&(vars->fork[i]), NULL);
 		(*philos)[i].fork1 = &(vars->fork[i]);
 		(*philos)[i].fork1_idx = i + 1;
-		(*philos)[i].last_eat_time = get_ms_time();
+		(*philos)[i].last_eat_time = vars->start_time;
 		(*philos)[i].eat_count = 0;
 		if (i < vars->args[0] - 1)
 		{
@@ -70,6 +70,8 @@ void	init_philos(t_vars *vars, t_philo **philos)
 int	init_vars(t_vars *vars, t_philo **philos)
 {
 	pthread_mutex_init(&(vars->print_mutex), NULL);
+	pthread_mutex_init(&(vars->dead_mutex), NULL);
+	pthread_mutex_init(&(vars->ate_enough_mutex), NULL);
 	vars->start_time = get_ms_time();
 	vars->life = vars->args[1];
 	vars->all_ate_enough = 0;
