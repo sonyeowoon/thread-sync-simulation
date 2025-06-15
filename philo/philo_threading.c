@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:49:45 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 06:10:31 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/16 06:51:51 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*check_all_ate(void *philos)
 		return (0);
 	i = 0;
 	count = 0;
-	while (1)
+	while (is_exit(p) == 0)
 	{
 		if (p->vars->is_dead)
 			return (0);
@@ -42,6 +42,7 @@ void	*check_all_ate(void *philos)
 		if (i == p->vars->args[0])
 			i = 0;
 	}
+	return (0);
 }
 
 void	*philosopher_routine(void *philos)
@@ -55,6 +56,10 @@ void	*philosopher_routine(void *philos)
 		safe_print(philos, "died");
 		return (0);
 	}
+	if ((p->vars->args[0] % 2) && p->index == p->vars->args[0])
+		usleep(100);
+	if (p->index % 2 == 0)
+		usleep(200);
 	while (1)
 	{
 		if (is_exit(p))

@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 02:27:04 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 05:35:10 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/16 06:26:06 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ void	safe_print(t_philo *philos, char *msg)
 {
 	pthread_mutex_lock(&(philos->vars->print_mutex));
 	if (is_exit(philos))
+	{
+		pthread_mutex_unlock(&(philos->vars->print_mutex));
 		return ;
+	}
 	printf("%d %d %s\n", philo_timestamp(philos), philos->index, msg);
 	pthread_mutex_unlock(&(philos->vars->print_mutex));
 }
