@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:49:45 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 05:55:19 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/16 06:10:31 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ void	*philosopher_routine(void *philos)
 	}
 	while (1)
 	{
+		if (is_exit(p))
+		{
+			all_mutex_destroy(p);
+			return (0);
+		}
 		if (philo_eat(p) == 0)
 		{
 			all_mutex_destroy(p);
