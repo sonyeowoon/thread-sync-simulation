@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 04:46:23 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 05:30:29 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/16 19:42:36 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ int	philo_eat(t_philo *philos)
 		pthread_mutex_unlock(philos->fork2);
 		return (0);
 	}
+	pthread_mutex_lock(&(philos->vars->eat_mutex));
 	philos->last_eat_time = get_ms_time();
 	philos->eat_count++;
+	pthread_mutex_unlock(&(philos->vars->eat_mutex));
 	safe_print(philos, "has taken a fork");
 	safe_print(philos, "is eating");
 	usleep(philos->vars->args[2] * 1000);

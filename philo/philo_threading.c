@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:49:45 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 06:51:51 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/16 19:57:53 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	*check_all_ate(void *philos)
 		i++;
 		if (i == p->vars->args[0])
 			i = 0;
+		usleep(50);
 	}
 	return (0);
 }
@@ -63,20 +64,12 @@ void	*philosopher_routine(void *philos)
 	while (1)
 	{
 		if (is_exit(p))
-		{
-			all_mutex_destroy(p);
 			return (0);
-		}
 		if (philo_eat(p) == 0)
-		{
-			all_mutex_destroy(p);
 			return (0);
-		}
 		if (philo_sleep(p) == 0)
-		{
-			all_mutex_destroy(p);
 			return (0);
-		}
+		usleep(50);
 	}
 	all_mutex_destroy(p);
 	return (0);
@@ -100,6 +93,7 @@ void	*philos_monitoring(void *philos)
 			printf("%d %d died\n", philo_timestamp(p), p->index);
 			pthread_mutex_unlock(&(p->vars->print_mutex));
 		}
+		usleep(50);
 	}
 	return (0);
 }
@@ -128,6 +122,7 @@ void	philo_threading(t_philo *philos, t_vars *vars)
 		pthread_join(monitoring_thread[i], NULL);
 		i++;
 	}
+	all_mutex_destroy(philos);
 	free(monitoring_thread);
 	pthread_join(ate_check_thread, NULL);
 }
