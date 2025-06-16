@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:49:45 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 19:57:53 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/16 21:04:35 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ void	*check_all_ate(void *philos)
 	{
 		if (p->vars->is_dead)
 			return (0);
+		pthread_mutex_lock(&(p->vars->eat_mutex));
 		if (p[i].eat_count >= p->vars->args[4])
 			count++;
 		else
 			count = 0;
+		pthread_mutex_unlock(&(p->vars->eat_mutex));
 		if (count >= p->vars->args[0])
 		{
 			pthread_mutex_lock(&(p->vars->ate_enough_mutex));

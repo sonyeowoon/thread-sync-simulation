@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 17:43:33 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/14 22:49:16 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/16 20:58:56 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,10 @@ int	philo_timestamp(t_philo *philos)
 
 int	get_remaining_life(t_philo *philos)
 {
-	return (philos->vars->life - (get_ms_time() - philos->last_eat_time));
+	int	remaining_life;
+
+	pthread_mutex_lock(&(philos->vars->eat_mutex));
+	remaining_life = philos->vars->life - (get_ms_time() - philos->last_eat_time);
+	pthread_mutex_unlock(&(philos->vars->eat_mutex));
+	return (remaining_life);
 }

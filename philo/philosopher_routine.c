@@ -6,16 +6,27 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 04:46:23 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 19:42:36 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/16 21:15:47 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void	fork_reverse_lock(t_philo *philos)
+{
+	pthread_mutex_lock(philos->fork2);
+	pthread_mutex_lock(philos->fork1);
+}
+
 int	philo_eat(t_philo *philos)
 {
-	pthread_mutex_lock(philos->fork1);
-	pthread_mutex_lock(philos->fork2);
+	if (philos->index == philos->vars->args[0])
+		fork_reverse_lock(philos);
+	else
+	{
+		pthread_mutex_lock(philos->fork1);
+		pthread_mutex_lock(philos->fork2);
+	}
 	if (is_exit(philos) == 1)
 	{
 		pthread_mutex_unlock(philos->fork1);
