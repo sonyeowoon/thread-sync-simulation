@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:28:12 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 19:41:06 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/17 02:53:04 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,14 @@ int	init_vars_error(void);
 void	philo_free(t_vars *vars, t_philo **philos);
 int	init_vars(t_vars *vars, t_philo **philos);
 int	philo_timestamp(t_philo *philos);
-void	safe_print(t_philo *philos, char *msg);
+int	safe_print(t_philo *philos, char *msg);
 int	philo_eat(t_philo *philos);
 int	philo_sleep(t_philo *philos);
 int	get_remaining_life(t_philo *philos);
 int	is_exit(t_philo *philos);
 void	all_mutex_destroy(t_philo *philos);
 void	philo_threading(t_philo *philos, t_vars *vars);
+int	philo_usleep(t_philo *philos, int us);
+int	take_fork(t_philo *philos);
 
 #endif

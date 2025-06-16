@@ -6,40 +6,74 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 04:46:23 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 21:15:47 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/17 03:19:50 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	fork_reverse_lock(t_philo *philos)
+int	take_fork_reverse(t_philo *philos)
 {
 	pthread_mutex_lock(philos->fork2);
+	if (safe_print(philos, "has taken a fork") == 0)
+	{
+		pthread_mutex_unlock(philos->fork2);
+		return (0);
+	}
+	if (philos->vars->args[0] == 1)
+	{
+		pthread_mutex_unlock(philos->fork2);
+		return (0);
+	}
 	pthread_mutex_lock(philos->fork1);
+	if (safe_print(philos, "has taken a fork") == 0)
+	{
+		pthread_mutex_unlock(philos->fork1);
+		return (0);
+	}
+	return (1);
+}
+
+int	take_fork(t_philo *philos)
+{
+	if (philos->index == philos->vars->args[0])
+	{
+		if (take_fork_reverse(philos) == 0)
+			return (0);
+	}
+	else
+	{
+		pthread_mutex_lock(philos->fork1);
+		if (safe_print(philos, "has taken a fork") == 0)
+		{
+			pthread_mutex_unlock(philos->fork1);
+			return (0);
+		}
+		pthread_mutex_lock(philos->fork2);
+		if (safe_print(philos, "has taken a fork") == 0)
+		{
+			pthread_mutex_unlock(philos->fork2);
+			return (0);
+		}
+	}
+	return (1);
 }
 
 int	philo_eat(t_philo *philos)
 {
-	if (philos->index == philos->vars->args[0])
-		fork_reverse_lock(philos);
-	else
+	pthread_mutex_lock(&(philos->vars->eat_mutex));
+	if (is_exit(philos))
 	{
-		pthread_mutex_lock(philos->fork1);
-		pthread_mutex_lock(philos->fork2);
-	}
-	if (is_exit(philos) == 1)
-	{
-		pthread_mutex_unlock(philos->fork1);
-		pthread_mutex_unlock(philos->fork2);
+		pthread_mutex_unlock(&(philos->vars->eat_mutex));
 		return (0);
 	}
-	pthread_mutex_lock(&(philos->vars->eat_mutex));
 	philos->last_eat_time = get_ms_time();
 	philos->eat_count++;
 	pthread_mutex_unlock(&(philos->vars->eat_mutex));
-	safe_print(philos, "has taken a fork");
-	safe_print(philos, "is eating");
-	usleep(philos->vars->args[2] * 1000);
+	if (safe_print(philos, "is eating") == 0)
+		return (0);
+	if (philo_usleep(philos, philos->vars->args[2] * 1000) == 0)
+		return (0);
 	pthread_mutex_unlock(philos->fork1);
 	pthread_mutex_unlock(philos->fork2);
 	return (1);
@@ -50,8 +84,7 @@ int	philo_sleep(t_philo *philos)
 	if (is_exit(philos) == 1)
 		return (0);
 	safe_print(philos, "is sleeping");
-	usleep(philos->vars->args[3] * 1000);
-	if (is_exit(philos) == 1)
+	if (philo_usleep(philos, philos->vars->args[3] * 1000) == 0)
 		return (0);
 	safe_print(philos, "is thinking");
 	return (1);

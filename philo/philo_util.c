@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 02:27:04 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 06:26:06 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/16 23:12:49 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,32 @@ int	check_int(long long n)
 	return (1);
 }
 
-void	safe_print(t_philo *philos, char *msg)
+int	safe_print(t_philo *philos, char *msg)
 {
 	pthread_mutex_lock(&(philos->vars->print_mutex));
 	if (is_exit(philos))
 	{
 		pthread_mutex_unlock(&(philos->vars->print_mutex));
-		return ;
+		return (0);
 	}
 	printf("%d %d %s\n", philo_timestamp(philos), philos->index, msg);
 	pthread_mutex_unlock(&(philos->vars->print_mutex));
+	return (1);
+}
+
+int	philo_usleep(t_philo *philos, int us)
+{
+	int	n;
+	int	i;
+
+	n = us / 100;
+	i = 0;
+	while (i < n)
+	{
+		if (is_exit(philos) == 1)
+			return (0);
+		usleep(100);
+		i++;
+	}
+	return (1);
 }

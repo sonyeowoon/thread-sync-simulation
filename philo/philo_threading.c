@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:49:45 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 21:04:35 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/17 03:31:59 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,30 @@ void	*philosopher_routine(void *philos)
 	t_philo	*p;
 
 	p = (t_philo *)philos;
-	if (p->vars->args[0] == 1)
-	{
-		usleep(p->vars->args[1] * 1000);
-		safe_print(philos, "died");
-		return (0);
-	}
+	//if (p->vars->args[0] == 1)
+	//{
+	//	if (philo_usleep(philos, p->vars->args[1] * 1000) == 0)
+	//		return (0);
+	//	if (safe_print(philos, "died") == 0)
+	//		return (0);
+	//	return (0);
+	//}
 	if ((p->vars->args[0] % 2) && p->index == p->vars->args[0])
 		usleep(100);
-	if (p->index % 2 == 0)
-		usleep(200);
+	if (p->index % 2)
+		usleep(100);
 	while (1)
 	{
 		if (is_exit(p))
 			return (0);
-		if (philo_eat(p) == 0)
+		if (take_fork(p) == 0)
 			return (0);
+		if (philo_eat(p) == 0)
+		{
+			pthread_mutex_unlock(p->fork1);
+			pthread_mutex_unlock(p->fork2);
+			return (0);
+		}
 		if (philo_sleep(p) == 0)
 			return (0);
 		usleep(50);
@@ -124,7 +132,7 @@ void	philo_threading(t_philo *philos, t_vars *vars)
 		pthread_join(monitoring_thread[i], NULL);
 		i++;
 	}
+	pthread_join(ate_check_thread, NULL);
 	all_mutex_destroy(philos);
 	free(monitoring_thread);
-	pthread_join(ate_check_thread, NULL);
 }
