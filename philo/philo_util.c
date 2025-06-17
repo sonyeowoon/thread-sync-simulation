@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 02:27:04 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/17 22:32:03 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/18 00:35:47 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_isdigit(int c)
 long long	ft_atoi(char *s)
 {
 	long long	n;
-	int	i;
+	int			i;
 
 	n = 0;
 	i = 0;
@@ -57,13 +57,15 @@ int	safe_print(t_philo *philos, char *msg)
 
 int	philo_usleep(t_philo *philos, int us)
 {
-	const int n = us / 1000;
-	const int current_time = get_ms_time();
+	int	n;
+	int	current_time;
 
+	n = us / 1000;
+	current_time = get_ms_time();
 	while (current_time + n > get_ms_time())
 	{
 		if (is_exit(philos) == 1)
-	 		return (0);
+			return (0);
 		usleep(1000);
 	}
 	return (1);
