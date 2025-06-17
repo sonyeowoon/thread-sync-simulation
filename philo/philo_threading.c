@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:49:45 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/18 05:48:45 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/18 06:33:35 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	*philosopher_routine(void *philos)
 
 	p = (t_philo *)philos;
 	if ((p->vars->args[0] % 2) && p->index == p->vars->args[0])
-		usleep(100);
+		usleep(200);
 	if (p->index % 2)
-		usleep(100);
+		usleep(400);
 	while (1)
 	{
 		if (is_exit(p))
@@ -64,7 +64,6 @@ void	*philosopher_routine(void *philos)
 		}
 		if (philo_sleep(p) == 0)
 			return (0);
-		usleep(50);
 	}
 	all_mutex_destroy(p);
 	return (0);
@@ -80,6 +79,11 @@ void	*philos_monitoring(void *philos)
 		if (get_remaining_life(philos) <= 0)
 		{
 			pthread_mutex_lock(&(p->vars->dead_mutex));
+			if (p->vars->is_dead == 1)
+			{
+				pthread_mutex_unlock(&(p->vars->dead_mutex));
+				return (0);
+			}
 			p->vars->is_dead = 1;
 			pthread_mutex_unlock(&(p->vars->dead_mutex));
 			pthread_mutex_lock(&(p->vars->print_mutex));
