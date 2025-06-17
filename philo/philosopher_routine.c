@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 04:46:23 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/17 03:19:50 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/17 23:50:52 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	take_fork_reverse(t_philo *philos)
 	pthread_mutex_lock(philos->fork1);
 	if (safe_print(philos, "has taken a fork") == 0)
 	{
+		pthread_mutex_unlock(philos->fork2);
 		pthread_mutex_unlock(philos->fork1);
 		return (0);
 	}
@@ -53,6 +54,7 @@ int	take_fork(t_philo *philos)
 		if (safe_print(philos, "has taken a fork") == 0)
 		{
 			pthread_mutex_unlock(philos->fork2);
+			pthread_mutex_unlock(philos->fork1);
 			return (0);
 		}
 	}
