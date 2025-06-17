@@ -43,7 +43,7 @@ void	*check_all_ate(void *philos)
 		i++;
 		if (i == p->vars->args[0])
 			i = 0;
-		usleep(50);
+		usleep(1000);
 	}
 	return (0);
 }
@@ -103,7 +103,7 @@ void	*philos_monitoring(void *philos)
 			printf("%d %d died\n", philo_timestamp(p), p->index);
 			pthread_mutex_unlock(&(p->vars->print_mutex));
 		}
-		usleep(50);
+		usleep(1000);
 	}
 	return (0);
 }

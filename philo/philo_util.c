@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 02:27:04 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 23:12:49 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/17 20:07:13 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,15 @@ int	safe_print(t_philo *philos, char *msg)
 
 int	philo_usleep(t_philo *philos, int us)
 {
-	int	n;
-	int	i;
+	const int n = us / 1000;
+	const int current_time = get_ms_time();
 
-	n = us / 100;
-	i = 0;
-	while (i < n)
+	while (current_time + n > get_ms_time())
 	{
 		if (is_exit(philos) == 1)
-			return (0);
-		usleep(100);
-		i++;
+	 		return (0);
+
+		usleep(1000);
 	}
 	return (1);
 }
