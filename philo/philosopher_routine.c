@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 04:46:23 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/18 07:32:54 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:34:15 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	philo_eat(t_philo *philos)
 	pthread_mutex_unlock(&(philos->vars->eat_mutex));
 	if (philo_usleep(philos, philos->vars->args[2] * 1000) == 0)
 		return (0);
-	pthread_mutex_unlock(philos->fork1);
 	pthread_mutex_unlock(philos->fork2);
+	pthread_mutex_unlock(philos->fork1);
 	return (1);
 }
 

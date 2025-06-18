@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.kr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 22:28:12 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/18 05:20:41 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/18 08:29:23 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ void		philo_threading(t_philo *philos, t_vars *vars);
 int			philo_usleep(t_philo *philos, int us);
 int			take_fork(t_philo *philos);
 int			if_all_ate(int count, t_philo *philos);
+void		unlock_fork(t_philo *philos);
 
 #endif
