@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:49:45 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/18 09:44:25 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/18 10:56:59 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	*check_all_ate(void *philos)
 		i++;
 		if (i == p->vars->args[0])
 			i = 0;
-		usleep(500);
+		usleep(200);
 	}
 	return (0);
 }
@@ -90,7 +90,7 @@ void	*philos_monitoring(void *philos)
 			printf("%d %d died\n", philo_timestamp(p), p->index);
 			pthread_mutex_unlock(&(p->vars->print_mutex));
 		}
-		usleep(500);
+		usleep(200);
 	}
 	return (0);
 }
