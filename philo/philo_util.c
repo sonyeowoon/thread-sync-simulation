@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 02:27:04 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/18 11:09:12 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/25 21:15:25 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	philo_usleep(t_philo *philos, int us)
 	{
 		if (is_exit(philos) == 1)
 			return (0);
-		usleep(1000);
+		usleep(10);
 	}
 	return (1);
 }

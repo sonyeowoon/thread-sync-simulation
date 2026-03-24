@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 15:49:45 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/18 10:56:59 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/25 21:20:52 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	*philosopher_routine(void *philos)
 
 	p = (t_philo *)philos;
 	if (p->index % 2)
-		usleep(200);
+		usleep(p->vars->args[3] * 1000);
 	while (1)
 	{
 		if (is_exit(p))

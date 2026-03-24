@@ -6,7 +6,7 @@
 /*   By: sangseo <sangseo@student.42gyeongsan.      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 00:59:14 by sangseo           #+#    #+#             */
-/*   Updated: 2025/06/16 23:43:05 by sangseo          ###   ########.fr       */
+/*   Updated: 2025/06/18 13:18:03 by sangseo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	main(int ac, char **av)
 	if (init_vars(&vars, &philos) == 0)
 		return (init_vars_error());
 	philo_threading(philos, &vars);
-	printf("All philosophers are done.\n");
 	philo_free(&vars, &philos);
 	return (0);
 }
